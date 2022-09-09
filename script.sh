@@ -41,7 +41,8 @@ echo "#     6 | Install Docker + Portainer                                      
 echo "#     7 | Install Pihole                                                   #"
 echo "#     8 | Install Keyhelp                                                  #"
 echo "#     9 | Install AdGuard Home                                             #"
-echo "#     10 | Install Node Verion                                              #"
+echo "#     10 | Install Node Verion                                             #"
+echo "#     11 | Install Nginx                                                   #"
 echo "#                                                                          #"    
 echo "############################################################################"
 
@@ -370,4 +371,39 @@ sudo apt-get install -y nodejs
 
 
 node -v
+fi
+if [ "$installnumber" = "11" ]; then
+clear
+echo "############################################################################"
+echo "#                            Installing Nginx                              #"
+echo "############################################################################"
+sleep 2
+echo "############################################################################"
+echo "#                      Server Update (apt update -y)                       #"
+echo "############################################################################"
+apt update -y
+wait -n
+echo "############################################################################"
+echo "#                      Server Upgrade (apt upgrade -y)                     #"
+echo "############################################################################"
+apt upgrade -y
+wait -n
+echo "############################################################################"
+echo "#                 CURL Installation (apt install curl -y)                  #"
+echo "############################################################################"
+apt install curl -y 
+wait -n
+echo "############################################################################"
+echo "#                     Downloading Nginx Installer                         #"
+echo "# curl -sSL https://nginx.org/keys/nginx_signing.key | apt-key add -     #"
+echo "# echo "deb http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list #"
+echo "# echo "deb-src http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" | tee -a /etc/apt/sources.list.d/nginx.list #"
+echo "# apt update -y                                                           #"
+echo "# apt install nginx -y                                                    #"
+echo "############################################################################"
+curl -sSL https://nginx.org/keys/nginx_signing.key | apt-key add -
+echo "deb http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list
+echo "deb-src http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" | tee -a /etc/apt/sources.list.d/nginx.list
+apt update -y
+apt install nginx -y
 fi
