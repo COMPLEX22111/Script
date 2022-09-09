@@ -47,6 +47,7 @@ echo "#     12 | Install NextCloud Docker                                       
 echo "#     13 | Install Php                                                     #"
 echo "#     14 | Install PHPMyAdmin                                              #"
 echo "#     15 | Install MariaDB                                                 #"
+echo "#     16 | Install Sinusbot Docker                                         #"
 echo "#                                                                          #"    
 echo "############################################################################"
 
@@ -530,7 +531,7 @@ echo "##########################################################################
 apt update -y
 wait -n
 echo "############################################################################"
-echo "#                      Server Upgrade (apt upgrade -y)                     #"
+echo "#                      Server Upgrade (apt Sinusbot Docker   upgrade -y)                     #"
 echo "############################################################################"
 apt upgrade -y
 wait -n
@@ -544,4 +545,39 @@ echo "#                     Downloading MariaDB Installer                       
 echo "# curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash #"
 echo "############################################################################"
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+fi
+if [ "$installnumber" = "16" ]; then
+clear
+echo "############################################################################"
+echo "#                        Installing                      #"
+echo "############################################################################"
+sleep 2
+echo "############################################################################"
+echo "#                       Server Update (apt update -y)                      #"
+echo "############################################################################"
+apt update -y
+wait -n
+echo "############################################################################"
+echo "#                       Server Upgrade (apt upgrade -y)                    #"
+echo "############################################################################"
+apt upgrade -y
+wait -n 
+echo "############################################################################"
+echo "#                           Enter the Name & Port                          #"
+echo "############################################################################"
+read -p "Please enter Sinusbot Container Name (sinusbot recommended): " sinusbotname
+read -p "Please enter Sinusbot Port 1 (8087 is recommended): " sinusbotport1
+echo "############################################################################"
+echo "#            Downloading and Installing Sinusbot Container                 #"
+echo "############################################################################"
+docker run -d -p $sinusbotport1:$sinusbotport1 \ -v scripts:/opt/sinusbot/scripts \ -v data:/opt/sinusbot/data \ --name $sinusbotname sinusbot/docker
+wait -n 
+clear
+echo "############################################################################"
+echo "#                     Installed Sinusbot Docker                            #"
+echo "#                                                                          #"
+echo "#      Sinusbot Name  | $sinusbotname                                      #"
+echo "#      Sinusbot Port1 | $sinusbotport1                                     #"
+echo "#                                                                          #"
+echo "############################################################################"
 fi
