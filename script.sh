@@ -43,6 +43,10 @@ echo "#     8 | Install Keyhelp                                                 
 echo "#     9 | Install AdGuard Home                                             #"
 echo "#     10 | Install Node Verion                                             #"
 echo "#     11 | Install Nginx                                                   #"
+echo "#     12 | Install NextCloud Docker                                        #"
+echo "#     13 | Install Php                                                     #"
+echo "#     14 | Install PHPMyAdmin                                              #"
+echo "#     15 | Install MariaDB                                                 #"
 echo "#                                                                          #"    
 echo "############################################################################"
 
@@ -355,18 +359,33 @@ clear
 
 sleep 1
 
+
 cd ~
 
 
+
+
+echo "############################################################################"
+echo "#                      Server Update (apt update -y)                       #"
+echo "############################################################################"
+
 sudo apt update ; sudo apt upgrade -y
 
+
  
+
 sleep 1
 
 clear
 
+echo "############################################################################"
+echo "#                     Geting soruce (curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -)                       #"
+echo "############################################################################"
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 
+echo "############################################################################"
+echo "#                     Install Node (sudo apt-get install -y nodejs)        #"
+echo "############################################################################"
 sudo apt-get install -y nodejs
 
 
@@ -406,4 +425,123 @@ echo "deb http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" | 
 echo "deb-src http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" | tee -a /etc/apt/sources.list.d/nginx.list
 apt update -y
 apt install nginx -y
+fi
+if [ "$installnumber" = "12" ]; then
+clear
+echo "############################################################################"
+echo "#                        Installing Nextcloud Docker                       #"
+echo "############################################################################"
+sleep 2
+echo "############################################################################"
+echo "#                       Server Update (apt update -y)                      #"
+echo "############################################################################"
+apt update -y
+wait -n
+echo "############################################################################"
+echo "#                       Server Upgrade (apt upgrade -y)                    #"
+echo "############################################################################"
+apt upgrade -y
+wait -n 
+echo "############################################################################"
+echo "#                           Enter the Name & Port                          #"
+echo "############################################################################"
+read -p "Please enter Nextcloud Container Name (nextcloud recommended): " nextcloudname
+read -p "Please enter Nextcloud Port 1 (8080 is recommended): " nextcloudport1
+read -p "Please enter Nextcloud Port 2 (80 is recommended): " nextcloudport2
+echo "############################################################################"
+echo "#            Downloading and Installing Nextcloud Container                #"
+echo "############################################################################"
+docker run -d -p $nextcloudport1:$nextcloudport2 --name $nextcloudname nextcloud 
+wait -n 
+clear
+echo "############################################################################"
+echo "#                     Installed Nextcloud Docker                           #"
+echo "#                                                                          #"
+echo "#      Nextcloud Name  | $nextcloudname                                    #"
+echo "#      Nextcloud Port1 | $nextcloudport1                                   #"
+echo "#      Nextcloud Port2 | $nextcloudport2                                   #"
+echo "#                                                                          #"
+echo "############################################################################"
+fi
+if [ "$installnumber" = "13" ]; then
+clear
+echo "############################################################################"
+echo "#                            Installing PHP                                #"
+echo "############################################################################"
+sleep 2
+echo "############################################################################"
+echo "#                      Server Update (apt update -y)                       #"
+echo "############################################################################"
+apt update -y
+wait -n
+echo "############################################################################"
+echo "#                      Server Upgrade (apt upgrade -y)                     #"
+echo "############################################################################"
+apt upgrade -y
+wait -n
+echo "############################################################################"
+echo "#                 CURL Installation (apt install curl -y)                  #"
+echo "############################################################################"
+apt install curl -y
+wait -n
+echo "############################################################################"
+echo "#                     Downloading PHP Installer                           #"
+echo "# curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer #"
+echo "############################################################################"
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+fi
+if [ "$installnumber" = "14" ]; then
+clear
+echo "############################################################################"
+echo "#                            Installing PHPMyAdmin                        #"
+echo "############################################################################"
+sleep 2
+echo "############################################################################"
+echo "#                      Server Update (apt update -y)                       #"
+echo "############################################################################"
+apt update -y
+wait -n
+echo "############################################################################"
+echo "#                      Server Upgrade (apt upgrade -y)                     #"
+echo "############################################################################"
+apt upgrade -y
+wait -n
+echo "############################################################################"
+echo "#                 CURL Installation (apt install curl -y)                  #"
+echo "############################################################################"
+apt install curl -y
+wait -n
+echo "############################################################################"
+echo "#                     Downloading PHPMyAdmin Installer                     #"
+echo "# curl -sS https://files.phpmyadmin.net/phpMyAdmin/
+echo "# phpMyAdmin-latest-all-languages.tar.gz | tar -xz -C /usr/share/phpmyadmin #"
+echo "############################################################################"
+curl -sS https://files.phpmyadmin.net/phpMyAdmin/phpMyAdmin-latest-all-languages.tar.gz | tar -xz -C /usr/share/phpmyadmin
+fi
+if [ "$installnumber" = "15" ]; then
+clear
+echo "############################################################################"
+echo "#                            Installing MariaDB                            #"
+echo "############################################################################"
+sleep 2
+echo "############################################################################"
+echo "#                      Server Update (apt update -y)                       #"
+echo "############################################################################"
+apt update -y
+wait -n
+echo "############################################################################"
+echo "#                      Server Upgrade (apt upgrade -y)                     #"
+echo "############################################################################"
+apt upgrade -y
+wait -n
+echo "############################################################################"
+echo "#                 CURL Installation (apt install curl -y)                  #"
+echo "############################################################################"
+apt install curl -y
+wait -n
+echo "############################################################################"
+echo "#                     Downloading MariaDB Installer                        #"
+echo "# curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash #"
+echo "############################################################################"
+curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 fi
